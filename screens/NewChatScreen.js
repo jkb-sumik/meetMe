@@ -18,17 +18,18 @@ import { setStoredUsers } from "../store/userSlice";
 
 const NewChatScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth.userData);
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState();
   const [noResultsFound, setNoResultsFound] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const userData = useSelector((state) => state.auth.userData);
+  // const [searchTerm, setSearchTerm] = useState(userData.city);
+  console.log(userData.city);
 
   //Dzieki wyczyszczeniu timeouta po dynamicznym wpisywaniu funkcja wywołla sie tylko raz a nie dla kazdego osobno
   // wazna sprawa mozna wrocic zeby zrozumiec do odcinka numer 113
   useEffect(() => {
     const delaySearch = setTimeout(async () => {
-      if (!searchTerm || searchTerm === "") {
+      if (!userData.city || userData.city === "") {
         setUsers();
         setNoResultsFound(false);
         return;
@@ -36,7 +37,7 @@ const NewChatScreen = ({ navigation }) => {
       setIsLoading(true);
 
       // const usersResult =
-      const usersResult = await searchUsers(searchTerm);
+      const usersResult = await searchUsers(userData.city);
       //Usuwanie siebie z wynikow
       delete usersResult[userData.userId];
       setUsers(usersResult);
@@ -51,7 +52,7 @@ const NewChatScreen = ({ navigation }) => {
       setIsLoading(false);
     }, 500);
     return () => clearTimeout(delaySearch);
-  }, [searchTerm]);
+  }, [userData.city]);
 
   const userPressed = (userId) => {
     navigation.navigate("Info", {
@@ -61,15 +62,15 @@ const NewChatScreen = ({ navigation }) => {
 
   return (
     <PageContainer>
-      <View style={styles.searchContainer}>
+      {/*     <View style={styles.searchContainer}>
         <FontAwesome name="search" size={25} color={colors.primary500} />
         <TextInput
           placeholder="Search"
           style={styles.searchBox}
-          value={searchTerm}
-          onChangeText={(text) => setSearchTerm(text)}
+          // value={searchTerm}
+          // onChangeText={(text) => setSearchTerm(text)}
         />
-      </View>
+  </View>*/}
 
       {isLoading && (
         <View style={commonStyles.center}>
@@ -106,7 +107,9 @@ const NewChatScreen = ({ navigation }) => {
             color={colors.lightGrey}
             style={styles.noResultsIcon}
           />
-          <Text style={styles.noResultsText}>No users found!</Text>
+          <Text style={styles.noResultsText}>
+            No users found from {userData.city} city!
+          </Text>
         </View>
       )}
       {!isLoading && !users && (
