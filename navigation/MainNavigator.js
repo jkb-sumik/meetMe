@@ -22,6 +22,7 @@ import { setStoredUsers } from "../store/userSlice";
 import { setChatMessages } from "../store/messagesSlice";
 import colors from "../constants/colors";
 import commonStyles from "../constants/commonStyles";
+import EventInfoScreen from "../screens/EventInfoScreen";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -136,6 +137,14 @@ const StackNavigator = () => {
       <Stack.Screen
         name="Info"
         component={UserInfoScreen}
+        options={{
+          headerTitle: "Info",
+          headerBackTitle: "Back",
+        }}
+      />
+      <Stack.Screen
+        name="EventInfo"
+        component={EventInfoScreen}
         options={{
           headerTitle: "Info",
           headerBackTitle: "Back",
