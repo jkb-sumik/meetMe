@@ -44,37 +44,36 @@ const CalendarScreen = ({ navigation }) => {
           <ActivityIndicator size={"large"} color={colors.primary} />
         </View>
       )}
-      {!isLoading && showModal && (
-        <Modal visible={showModal} animationType="fade" transparent={true}>
-          <View style={styles.modalContainer}>
-            <Calendar
-              style={styles.calendar}
-              onDayPress={(date) => {
-                setSearchDate(date.dateString);
-                setShowModal(false);
-              }}
-              markingType={"custom"}
-              markedDates={{
-                [searchDate]: {
-                  customStyles: {
-                    container: {
-                      backgroundColor: colors.primary500,
-                    },
-                    text: {
-                      color: colors.primary100,
-                      fontWeight: "bold",
-                    },
+
+      <Modal visible={showModal} animationType="fade" transparent={true}>
+        <View style={styles.modalContainer}>
+          <Calendar
+            style={styles.calendar}
+            onDayPress={(date) => {
+              setSearchDate(date.dateString);
+              setShowModal(false);
+            }}
+            markingType={"custom"}
+            markedDates={{
+              [searchDate]: {
+                customStyles: {
+                  container: {
+                    backgroundColor: colors.primary500,
+                  },
+                  text: {
+                    color: colors.primary100,
+                    fontWeight: "bold",
                   },
                 },
-              }}
-              theme={{
-                calendarBackground: colors.backgroundBlue,
-                textSectionTitleColor: "#b6c1cd",
-              }}
-            />
-          </View>
-        </Modal>
-      )}
+              },
+            }}
+            theme={{
+              calendarBackground: colors.backgroundBlue,
+              textSectionTitleColor: "#b6c1cd",
+            }}
+          />
+        </View>
+      </Modal>
     </PageContainer>
   );
 };

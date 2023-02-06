@@ -5,6 +5,8 @@ import {
   Text,
   View,
   ScrollView,
+  Modal,
+  Button,
 } from "react-native";
 import PageTitle from "../components/PageTitle";
 import PageContainer from "../components/PageContainer";
@@ -15,6 +17,7 @@ import {
   FontAwesome,
   FontAwesome5,
   MaterialCommunityIcons,
+  Feather,
 } from "@expo/vector-icons";
 import { validateInput } from "../utils/actions/formActions";
 import { reducer } from "../utils/reducers/formReducer";
@@ -25,17 +28,27 @@ import {
 } from "../utils/actions/authActions";
 import { updateLoggedInUserData } from "../store/authSlice";
 import colors from "../constants/colors";
+import { useEffect } from "react";
 
 const SettingsScreen = (props) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [show, setShow] = useState(false);
   const userData = useSelector((state) => state.auth.userData);
 
   const age = userData.age || "";
   const gender = userData.gender || "";
   const city = userData.city || "";
   const about = userData.about || "";
+
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <Button onPress={() => setShow(true)} title="Info" color="#fff" />
+      ),
+    });
+  }, []);
 
   const initialState = {
     inputValues: {
@@ -172,19 +185,51 @@ const SettingsScreen = (props) => {
               />
             )
           )}
-          <SubmitButton
-            title="Logout"
-            onPress={logoutHandler}
-            style={{ marginTop: 20 }}
-            color={colors.backgroundBlue}
-          />
         </View>
       </ScrollView>
+      <Modal visible={show} animationType="fade" transparent={true}>
+        <View style={styles.modalContainer}>
+          <View style={styles.settingsView}>
+            <View style={{ alignItems: "flex-end" }}>
+              <Feather
+                name="x"
+                size={30}
+                color="white"
+                onPress={() => setShow(false)}
+              />
+            </View>
+            <SubmitButton
+              title="Settings"
+              onPress={() => console.log("button A")}
+              style={{ marginTop: 20 }}
+              color={colors.primary500}
+            />
+            <SubmitButton
+              title="Logout"
+              onPress={logoutHandler}
+              style={{ marginTop: 20 }}
+              color={colors.primary500}
+            />
+          </View>
+        </View>
+      </Modal>
     </PageContainer>
   );
 };
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    opacity: 0.8,
+  },
+  settingsView: {
+    width: "90%",
+    padding: 30,
+    borderRadius: 10,
+    backgroundColor: colors.backgroundBlue,
+  },
   container: {
     flex: 1,
   },

@@ -20,9 +20,12 @@ import { setChatsData } from "../store/chatSlice";
 import { ActivityIndicator, View } from "react-native";
 import { setStoredUsers } from "../store/userSlice";
 import { setChatMessages } from "../store/messagesSlice";
+import { updatedSignedInUserData } from "../utils/actions/authActions";
+import { updateLoggedInUserData } from "../store/authSlice";
 import colors from "../constants/colors";
 import commonStyles from "../constants/commonStyles";
 import EventInfoScreen from "../screens/EventInfoScreen";
+import * as Location from "expo-location";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -220,6 +223,28 @@ const MainNavigator = (props) => {
       console.log("Unsubscribe to firebae listeners");
       unsubChats();
     };
+  }, []);
+
+  // Get our location
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+      console.log(latitude, longitude);
+      const data = await updatedSignedInUserData(userData.userId, {
+        coords: {
+          latitude,
+          longitude,
+        },
+      });
+      dispatch(updateLoggedInUserData({ newData: data }));
+    })();
   }, []);
 
   if (isLoading) {

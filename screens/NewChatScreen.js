@@ -62,16 +62,6 @@ const NewChatScreen = ({ navigation }) => {
 
   return (
     <PageContainer>
-      {/*     <View style={styles.searchContainer}>
-        <FontAwesome name="search" size={25} color={colors.primary500} />
-        <TextInput
-          placeholder="Search"
-          style={styles.searchBox}
-          // value={searchTerm}
-          // onChangeText={(text) => setSearchTerm(text)}
-        />
-  </View>*/}
-
       {isLoading && (
         <View style={commonStyles.center}>
           <ActivityIndicator size={"large"} color={colors.primary} />

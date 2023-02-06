@@ -16,13 +16,7 @@ const SubmitButton = (props) => {
         ...{ backgroundColor: bgColor },
       }}
     >
-      <Text
-        style={
-          props.title === "Logout"
-            ? { color: "white" }
-            : { color: props.disabled ? colors.grey : colors.primary100 }
-        }
-      >
+      <Text style={{ color: props.disabled ? colors.grey : colors.primary100 }}>
         {props.title}
       </Text>
     </TouchableOpacity>

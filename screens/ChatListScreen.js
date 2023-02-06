@@ -18,22 +18,6 @@ const ChatListScreen = (props) => {
   });
   const storedUsers = useSelector((state) => state.users.storedUsers);
 
-  // useEffect(() => {
-  //   props.navigation.setOptions({
-  //     headerRight: () => {
-  //       return (
-  //         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-  //           <Item
-  //             title="New chat"
-  //             iconName="create-outline"
-  //             onPress={() => props.navigation.navigate("NewChat")}
-  //           />
-  //         </HeaderButtons>
-  //       );
-  //     },
-  //   });
-  // }, []);
-
   useEffect(() => {
     if (!selectedUser) return;
 
