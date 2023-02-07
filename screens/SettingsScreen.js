@@ -6,7 +6,6 @@ import {
   View,
   ScrollView,
   Modal,
-  Button,
 } from "react-native";
 import PageTitle from "../components/PageTitle";
 import PageContainer from "../components/PageContainer";
@@ -53,7 +52,6 @@ const SettingsScreen = (props) => {
           onPress={() => setShow(true)}
           style={{ marginRight: 10 }}
         />
-        // <Button onPress={() => setShow(true)} title="Info" color="#fff" />
       ),
     });
   }, []);

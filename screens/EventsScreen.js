@@ -28,7 +28,6 @@ const EventsScreen = ({ navigation }) => {
   const userPressed = (eventId) => {
     navigation.navigate("EventInfo", {
       selectedEventId: eventId,
-      navigation: navigation,
     });
   };
 

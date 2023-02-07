@@ -1,10 +1,14 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Image, StyleSheet, Text, View, Modal } from "react-native";
+import { Feather } from "@expo/vector-icons";
 import SubmitButton from "../components/SubmitButton";
+import colors from "../constants/colors";
 import { EVENTS } from "../constants/events";
 
 const EventInfoScreen = (props) => {
   const eventId = props.route?.params?.selectedEventId;
   const thisEvent = EVENTS[eventId];
+  const [activeModal, setActiveModal] = useState(false);
   const { title, addres, about, timeDate } = thisEvent;
   const time = `${timeDate
     .slice(0, 10)
@@ -21,39 +25,71 @@ const EventInfoScreen = (props) => {
           <Text style={{ ...styles.text, fontSize: 15, marginBottom: 5 }}>
             {addres}
           </Text>
-          <Text
-            style={{
-              fontWeight: "bold",
-              color: "#333",
-              fontSize: 18,
-              marginTop: 20,
-              marginBottom: 10,
-            }}
-          >
-            About the event
-          </Text>
+          <Text style={styles.about}>About the event</Text>
           <Text
             style={{
               ...styles.text,
-              fontSize: 12,
-              textAlign: "justify",
-              lineHeight: 17,
-              marginBottom: 20,
+              ...styles.aboutText,
             }}
           >
             {about}
           </Text>
           <SubmitButton
             title="Add to calendar"
-            onPress={() => console.log("Add to calendar")}
+            color={colors.primary500}
+            onPress={() => setActiveModal(true)}
           />
         </View>
       </View>
+      <Modal visible={activeModal} animationType="fade" transparent={true}>
+        <View style={styles.modalContainer}>
+          <View style={styles.settingsView}>
+            <Text style={styles.modalTitle}>Save this event ?</Text>
+            <SubmitButton
+              title="Yes"
+              onPress={() => {
+                console.log("Tak");
+                setActiveModal(false);
+              }}
+              style={{ marginTop: 20 }}
+              color={colors.primary500}
+            />
+            <SubmitButton
+              title="No"
+              onPress={() => {
+                console.log("Nie");
+                setActiveModal(false);
+              }}
+              style={{ marginTop: 10 }}
+              color={colors.primary500}
+            />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+  },
+  settingsView: {
+    width: "80%",
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: "white",
+    elevation: 10,
+  },
+  modalTitle: {
+    fontWeight: "bold",
+    fontSize: 20,
+    color: "#333",
+    textAlign: "center",
+  },
   image: {
     width: "100%",
     height: 400,
@@ -84,6 +120,19 @@ const styles = StyleSheet.create({
   text: {
     color: "#555",
     fontFamily: "regular",
+  },
+  about: {
+    fontWeight: "bold",
+    color: "#333",
+    fontSize: 18,
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  aboutText: {
+    fontSize: 12,
+    textAlign: "justify",
+    lineHeight: 17,
+    marginBottom: 20,
   },
 });
 
