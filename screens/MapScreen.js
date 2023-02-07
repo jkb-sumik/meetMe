@@ -19,7 +19,6 @@ const MapScreen = (props) => {
       const activeUsersResult = await searchActiveUsers(userData.city);
       dispatch(setActiveUsers({ newUsers: activeUsersResult }));
       setUsers(Object.values(activeUsersResult));
-      console.log("refresh");
     })();
   }, [userData.city]);
 

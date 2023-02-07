@@ -18,6 +18,7 @@ import {
   FontAwesome5,
   MaterialCommunityIcons,
   Feather,
+  Ionicons,
 } from "@expo/vector-icons";
 import { validateInput } from "../utils/actions/formActions";
 import { reducer } from "../utils/reducers/formReducer";
@@ -45,7 +46,14 @@ const SettingsScreen = (props) => {
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <Button onPress={() => setShow(true)} title="Info" color="#fff" />
+        <Ionicons
+          name="md-settings-outline"
+          size={24}
+          color="black"
+          onPress={() => setShow(true)}
+          style={{ marginRight: 10 }}
+        />
+        // <Button onPress={() => setShow(true)} title="Info" color="#fff" />
       ),
     });
   }, []);

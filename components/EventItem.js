@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -5,8 +6,19 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import CustomHeaderButton from "./CustomHeaderButton";
 
-const EventItem = ({ title, subTitle, image, onPress, city }) => {
+const EventItem = (props) => {
+  const { event, onPress } = props;
+  const { title, image, addres, about, timeDate } = event;
+  const description = `${about.slice(0, 70)}...`;
+  const time = `${timeDate
+    .slice(0, 10)
+    .split("-")
+    .reverse()
+    .join("-")}  ${timeDate.slice(11, 16)}`;
+
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.eventItem}>
@@ -19,13 +31,17 @@ const EventItem = ({ title, subTitle, image, onPress, city }) => {
           <View
             style={{
               flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              padding: 20,
+              justifyContent: "flex-end",
+              backgroundColor: "rgba(0, 0, 0, 0.3)",
             }}
           >
             <Text style={styles.title}>{title}</Text>
-            <Text style={styles.title}>{city}</Text>
+            <Text style={{ ...styles.text, fontSize: 15 }}>{time}</Text>
+            <Text style={{ ...styles.text, fontSize: 15, marginBottom: 5 }}>
+              {addres}
+            </Text>
+            <Text style={{ ...styles.text, fontSize: 12 }}>{description}</Text>
           </View>
         </ImageBackground>
       </View>
@@ -35,15 +51,19 @@ const EventItem = ({ title, subTitle, image, onPress, city }) => {
 
 const styles = StyleSheet.create({
   eventItem: {
-    height: 200,
+    height: 300,
     borderRadius: 10,
     marginBottom: 10,
     overflow: "hidden",
   },
   title: {
     color: "white",
-    fontFamily: "regular",
+    fontFamily: "bold",
     fontSize: 30,
+  },
+  text: {
+    color: "white",
+    fontFamily: "regular",
   },
 });
 

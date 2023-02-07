@@ -142,7 +142,7 @@ const StackNavigator = () => {
         component={UserInfoScreen}
         options={{
           headerTitle: "Info",
-          headerBackTitle: "Back",
+          headerTitleAlign: "center",
         }}
       />
       <Stack.Screen
@@ -150,7 +150,7 @@ const StackNavigator = () => {
         component={EventInfoScreen}
         options={{
           headerTitle: "Info",
-          headerBackTitle: "Back",
+          headerTitleAlign: "center",
         }}
       />
     </Stack.Navigator>
