@@ -236,7 +236,6 @@ const MainNavigator = (props) => {
 
       let location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
-      console.log(latitude, longitude);
       const data = await updatedSignedInUserData(userData.userId, {
         coords: {
           latitude,
@@ -245,6 +244,18 @@ const MainNavigator = (props) => {
       });
       dispatch(updateLoggedInUserData({ newData: data }));
     })();
+  }, []);
+
+  // User status
+  useEffect(() => {
+    const changeStatus = async () => {
+      await updatedSignedInUserData(userData.userId, { active: true });
+    };
+    changeStatus();
+    return () => {
+      console.log("Change user status");
+      updatedSignedInUserData(userData.userId, { active: false });
+    };
   }, []);
 
   if (isLoading) {

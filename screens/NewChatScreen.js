@@ -22,8 +22,6 @@ const NewChatScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState();
   const [noResultsFound, setNoResultsFound] = useState(false);
-  // const [searchTerm, setSearchTerm] = useState(userData.city);
-  console.log(userData.city);
 
   //Dzieki wyczyszczeniu timeouta po dynamicznym wpisywaniu funkcja wywołla sie tylko raz a nie dla kazdego osobno
   // wazna sprawa mozna wrocic zeby zrozumiec do odcinka numer 113

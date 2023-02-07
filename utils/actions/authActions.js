@@ -196,3 +196,23 @@ export const searchUsers = async (queryText) => {
     console.log(error);
   }
 };
+
+export const searchActiveUsers = async (queryText) => {
+  const searchTerm = queryText;
+  const usersArray = {};
+  try {
+    const q = query(
+      collection(db, "users"),
+      where("city", "==", searchTerm),
+      where("active", "==", true)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      usersArray[doc.id] = data;
+    });
+    return usersArray;
+  } catch (error) {
+    console.log(error);
+  }
+};

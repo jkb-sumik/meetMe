@@ -3,175 +3,31 @@ import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
-import { set } from "react-native-reanimated";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MyCustomMarkerView from "../components/MyCustomMarkerView.";
-
-const MAP_STYLE = [
-  {
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#f5f5f5",
-      },
-    ],
-  },
-  {
-    elementType: "labels.icon",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-  {
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#616161",
-      },
-    ],
-  },
-  {
-    elementType: "labels.text.stroke",
-    stylers: [
-      {
-        color: "#f5f5f5",
-      },
-    ],
-  },
-  {
-    featureType: "administrative.land_parcel",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#bdbdbd",
-      },
-    ],
-  },
-  {
-    featureType: "poi",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#eeeeee",
-      },
-    ],
-  },
-  {
-    featureType: "poi",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#757575",
-      },
-    ],
-  },
-  {
-    featureType: "poi.park",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#e5e5e5",
-      },
-    ],
-  },
-  {
-    featureType: "poi.park",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#9e9e9e",
-      },
-    ],
-  },
-  {
-    featureType: "road",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#ffffff",
-      },
-    ],
-  },
-  {
-    featureType: "road.arterial",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#757575",
-      },
-    ],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#dadada",
-      },
-    ],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#616161",
-      },
-    ],
-  },
-  {
-    featureType: "road.local",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#9e9e9e",
-      },
-    ],
-  },
-  {
-    featureType: "transit.line",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#e5e5e5",
-      },
-    ],
-  },
-  {
-    featureType: "transit.station",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#eeeeee",
-      },
-    ],
-  },
-  {
-    featureType: "water",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#c9c9c9",
-      },
-    ],
-  },
-  {
-    featureType: "water",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#9e9e9e",
-      },
-    ],
-  },
-];
+import { MAP_STYLE } from "../constants/mapStyle";
+import { setActiveUsers } from "../store/userSlice";
+import { searchActiveUsers } from "../utils/actions/authActions";
 
 const MapScreen = (props) => {
+  const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.userData);
-  const selectedUser = useSelector((state) => state.users.storedUsers);
-  const dataaa = [...Object.values(selectedUser), userData];
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const activeUsersResult = await searchActiveUsers(userData.city);
+      dispatch(setActiveUsers({ newUsers: activeUsersResult }));
+      setUsers(Object.values(activeUsersResult));
+      console.log("refresh");
+    })();
+  }, [userData.city]);
+
+  // const userPressed = (userId) => {
+  //   navigation.navigate("Info", {
+  //     selectedUserId: userId,
+  //   });
+  // };
 
   return (
     <View style={styles.container}>
@@ -185,7 +41,7 @@ const MapScreen = (props) => {
         style={styles.map}
         customMapStyle={MAP_STYLE}
       >
-        {dataaa.map((marker, index) => (
+        {users.map((marker, index) => (
           <Marker
             key={index}
             coordinate={{
