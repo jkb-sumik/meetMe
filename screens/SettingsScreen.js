@@ -200,7 +200,7 @@ const SettingsScreen = (props) => {
               <Feather
                 name="x"
                 size={30}
-                color="white"
+                color="#333"
                 onPress={() => setShow(false)}
               />
             </View>
@@ -228,13 +228,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    opacity: 0.8,
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
   },
   settingsView: {
     width: "90%",
     padding: 30,
     borderRadius: 10,
-    backgroundColor: colors.backgroundBlue,
+    backgroundColor: "white",
+    elevation: 10,
   },
   container: {
     flex: 1,

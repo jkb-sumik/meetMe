@@ -23,14 +23,14 @@ const Bubble = (props) => {
       break;
     case "myMessage":
       wrapperStyle.justifyContent = "flex-end";
-      textStyle.color = colors.primary100;
+      textStyle.color = "#333";
       bubbleStyle.backgroundColor = colors.primary500;
       bubbleStyle.maxWidth = "90%";
       break;
     case "theirMessage":
       wrapperStyle.justifyContent = "flex-start";
-      textStyle.color = colors.primary500;
-      bubbleStyle.backgroundColor = colors.primary100;
+      textStyle.color = "white";
+      bubbleStyle.backgroundColor = "#333";
       bubbleStyle.maxWidth = "90%";
 
       break;
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 7,
     marginBottom: 10,
-    borderColor: "#e2dacc",
+    borderColor: "#333",
     borderWidth: 1,
   },
   text: {

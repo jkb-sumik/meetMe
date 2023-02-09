@@ -1,11 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
+import PageContainer from "../components/PageContainer";
 import colors from "../constants/colors";
 
 const HelpScreen = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Comming soon help!</Text>
-    </View>
+    <PageContainer>
+      <View style={styles.container}>
+        <Text style={styles.text}>Comming soon help!</Text>
+      </View>
+    </PageContainer>
   );
 };
 
@@ -14,7 +17,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
   },
   text: {
     fontFamily: "regular",

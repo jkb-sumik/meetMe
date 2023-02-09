@@ -17,7 +17,7 @@ import { updatedSignedInUserData } from "../utils/actions/authActions";
 import { useDispatch } from "react-redux";
 import { updateLoggedInUserData } from "../store/authSlice";
 
-const ProfileImage = ({ size, uri, uId, showEdit, margin }) => {
+const ProfileImage = ({ size, uri, uId, showEdit, margin, translate }) => {
   const dispatch = useDispatch();
   const source = uri ? { uri } : defaultProfile;
   const [image, setImage] = useState(source);
@@ -52,6 +52,8 @@ const ProfileImage = ({ size, uri, uId, showEdit, margin }) => {
     }
   };
 
+  const transform = translate ? [translate] : [];
+
   const Container = showEdit ? TouchableOpacity : View;
 
   return (
@@ -59,7 +61,12 @@ const ProfileImage = ({ size, uri, uId, showEdit, margin }) => {
       onPress={pickImage}
       style={{
         ...styles.container,
-        ...{ width: size, height: size, marginBottom: margin },
+        ...{
+          width: size,
+          height: size,
+          marginBottom: margin,
+          transform: transform,
+        },
       }}
     >
       {isLoading ? (

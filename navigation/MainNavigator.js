@@ -37,10 +37,17 @@ const DrawerNavigator = () => {
       screenOptions={{
         headerShadowVisible: false,
         headerTitleAlign: "center",
-
-        drawerContentStyle: { backgroundColor: colors.backgroundBlue },
-        drawerInactiveTintColor: colors.primary500,
-        drawerActiveTintColor: colors.backgroundBlue,
+        headerTitleStyle: {
+          color: "#333",
+        },
+        headerStyle: {
+          backgroundColor: "#f5f5f5",
+        },
+        overlayColor: 1,
+        //Pasek on menu
+        drawerContentStyle: { backgroundColor: "#a9a9a9" },
+        drawerInactiveTintColor: "#333",
+        drawerActiveTintColor: "#333",
         drawerActiveBackgroundColor: colors.primary500,
       }}
     >
@@ -124,7 +131,17 @@ const DrawerNavigator = () => {
 
 const StackNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShadowVisible: false,
+        headerStyle: {
+          backgroundColor: "#f5f5f5",
+        },
+        headerTitleStyle: {
+          color: "#333",
+        },
+      }}
+    >
       <Stack.Screen
         name="Home"
         component={DrawerNavigator}

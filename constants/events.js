@@ -7,7 +7,7 @@ export const EVENTS = {
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
     eventId: "734hf3h47fh3784f734fh",
     city: "Bielsko",
-    addres: "43-300 Bielsko, ul. Twoja moja 56",
+    addres: "Plac Mickiewicza 2, 43-300 Bielsko-Biała",
     timeDate: "2023-02-07T12:16:00.310Z",
   },
   "834975nc8734975fh3478": {

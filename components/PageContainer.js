@@ -7,7 +7,7 @@ const PageContainer = (props) => {
   };
   props.background
     ? (container.backgroundColor = props.background)
-    : (container.backgroundColor = "white");
+    : (container.backgroundColor = "#f5f5f5");
   return <View style={{ ...container, ...props.style }}>{props.children}</View>;
 };
 

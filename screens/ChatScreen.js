@@ -97,7 +97,7 @@ const ChatScreen = (props) => {
           source={backgroundImage}
           style={styles.backgroundImage}
         >
-          <PageContainer style={{ backgroundColor: "white" }}>
+          <PageContainer>
             {!chatId && (
               <Bubble text="This is a new chat. Say hi!" type="system" />
             )}
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     width: 35,
   },
   sendButton: {
-    backgroundColor: colors.primary100,
+    backgroundColor: "#333",
     borderRadius: 50,
     padding: 8,
   },

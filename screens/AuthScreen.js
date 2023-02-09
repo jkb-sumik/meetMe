@@ -32,7 +32,7 @@ const AuthScreen = (props) => {
           >
             <View style={styles.imageContainer}>
               {/*<Image style={styles.image} source={logo} resizeMode="contain" />*/}
-              <Text style={styles.textLogo}>Logo</Text>
+              <Text style={styles.textLogo}>MeetMe</Text>
             </View>
 
             {isSignUp ? <SignUpForm /> : <SignInForm />}
@@ -72,9 +72,9 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   textLogo: {
-    fontSize: 30,
+    fontSize: 40,
     fontFamily: "bold",
-    color: colors.primary100,
+    color: colors.primary500,
   },
   keyboardAvoidingView: {
     flex: 1,

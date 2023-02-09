@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     padding: 7,
-    borderBottomColor: colors.backgroundBlue,
+    borderBottomColor: "#333",
     borderBottomWidth: 1,
     alignItems: "center",
     minHeight: 80,
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     fontFamily: "medium",
     fontSize: 22,
     letterSpacing: 0.3,
+    color: "#333",
   },
   subTitle: {
     fontFamily: "regular",

@@ -27,14 +27,14 @@ const CalendarScreen = ({ navigation }) => {
         <MaterialIcons
           name="clear"
           size={30}
-          color={colors.primary500}
+          color="white"
           style={{ marginRight: 15 }}
           onPress={() => setSearchDate("")}
         />
         <FontAwesome
           name="calendar"
           size={25}
-          color={colors.primary500}
+          color="white"
           onPress={() => setShowModal(true)}
         />
       </View>
@@ -68,8 +68,13 @@ const CalendarScreen = ({ navigation }) => {
               },
             }}
             theme={{
-              calendarBackground: colors.backgroundBlue,
-              textSectionTitleColor: "#b6c1cd",
+              calendarBackground: "#333",
+              textSectionTitleColor: "white",
+              monthTextColor: "white",
+              dayTextColor: "white",
+              textDisabledColor: "black",
+              arrowColor: "white",
+              todayTextColor: colors.primary500,
             }}
           />
         </View>
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.backgroundBlue,
+    backgroundColor: "#333",
     height: 50,
     marginVertical: 8,
     paddingHorizontal: 8,
@@ -97,7 +102,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     fontSize: 25,
     width: "75%",
-    color: "#DBF227",
+    color: "white",
   },
   noResultsIcon: {
     marginBottom: 20,
