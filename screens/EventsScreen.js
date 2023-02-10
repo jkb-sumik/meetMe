@@ -7,23 +7,44 @@ import {
   FlatList,
 } from "react-native";
 import PageContainer from "../components/PageContainer";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../constants/colors";
 import commonStyles from "../constants/commonStyles";
 import EventItem from "../components/EventItem";
 import { useDispatch, useSelector } from "react-redux";
-import { EVENTS } from "../constants/events";
+import { searchEvents } from "../utils/actions/authActions";
+import { setStoredEvents } from "../store/eventSlice";
 
 const EventsScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.userData);
   const [isLoading, setIsLoading] = useState(false);
-  const [events, setEvents] = useState(true);
+  const [events, setEvents] = useState();
   const [noResultsFound, setNoResultsFound] = useState(false);
 
-  const cityEvents = Object.values(EVENTS).filter(
-    (item) => item.city === userData.city
-  );
+  useEffect(() => {
+    const delaySearch = setTimeout(async () => {
+      if (!userData.city || userData.city === "") {
+        setEvents();
+        setNoResultsFound(false);
+        return;
+      }
+      setIsLoading(true);
+
+      const eventsResult = await searchEvents(userData.city);
+      setEvents(Object.values(eventsResult));
+
+      if (Object.keys(eventsResult).length === 0) {
+        setNoResultsFound(true);
+      } else {
+        setNoResultsFound(false);
+        dispatch(setStoredEvents({ newEvents: eventsResult }));
+      }
+
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(delaySearch);
+  }, [userData.city]);
 
   const userPressed = (eventId) => {
     navigation.navigate("EventInfo", {
@@ -41,7 +62,7 @@ const EventsScreen = ({ navigation }) => {
 
       {!isLoading && !noResultsFound && events && (
         <FlatList
-          data={cityEvents}
+          data={events}
           renderItem={({ item }) => {
             return (
               <EventItem
@@ -68,15 +89,13 @@ const EventsScreen = ({ navigation }) => {
       )}
       {!isLoading && !events && (
         <View style={commonStyles.center}>
-          <FontAwesome
-            name="users"
+          <MaterialCommunityIcons
+            name="party-popper"
             size={55}
             color={colors.lightGrey}
             style={styles.noResultsIcon}
           />
-          <Text style={styles.noResultsText}>
-            Enter a city to search for a events!
-          </Text>
+          <Text style={styles.noResultsText}>Searching for a events ?</Text>
         </View>
       )}
     </PageContainer>

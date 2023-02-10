@@ -213,7 +213,7 @@ const SettingsScreen = (props) => {
             <SubmitButton
               title="Logout"
               onPress={logoutHandler}
-              style={{ marginTop: 20 }}
+              style={{ marginTop: 10 }}
               color={colors.primary500}
             />
           </View>
@@ -231,9 +231,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.3)",
   },
   settingsView: {
-    width: "90%",
-    padding: 30,
-    borderRadius: 10,
+    width: "80%",
+    padding: 20,
+    borderRadius: 20,
     backgroundColor: "white",
     elevation: 10,
   },

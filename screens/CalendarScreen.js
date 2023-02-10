@@ -1,24 +1,65 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  ActivityIndicator,
-  FlatList,
-  Modal,
-} from "react-native";
+import { View, StyleSheet, Text, FlatList, Modal } from "react-native";
 import PageContainer from "../components/PageContainer";
+import EventItem from "../components/EventItem";
 import { Calendar } from "react-native-calendars";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../constants/colors";
 import commonStyles from "../constants/commonStyles";
+import { useSelector } from "react-redux";
 
 const CalendarScreen = ({ navigation }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [noResultsFound, setNoResultsFound] = useState(false);
   const [searchDate, setSearchDate] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const event = Object.values(
+    useSelector((state) => state.calendar.storedEvents)
+  );
+  const eventToDisplay = searchDate
+    ? event.filter((event) => event.timeDate.slice(0, 10) == searchDate)
+    : event;
+
+  // Marked days logic
+  const daysToMarked = {
+    [searchDate]: {
+      customStyles: {
+        container: {
+          backgroundColor: colors.primary500,
+        },
+        text: {
+          color: colors.primary100,
+          fontWeight: "bold",
+        },
+      },
+    },
+  };
+
+  event.forEach((event) => {
+    const date = event.timeDate.slice(0, 10);
+    if (date == searchDate) {
+      daysToMarked[date] = {
+        customStyles: {
+          container: {
+            backgroundColor: colors.primary500,
+          },
+          text: {
+            color: colors.primary100,
+            fontWeight: "bold",
+          },
+        },
+      };
+    } else {
+      daysToMarked[date] = { marked: true, dotColor: colors.primary500 };
+    }
+  });
+
+  // Navigate to info screen
+  const userPressed = (eventId) => {
+    navigation.navigate("EventInfo", {
+      selectedEventId: eventId,
+      calendar: true,
+    });
+  };
 
   return (
     <PageContainer>
@@ -39,10 +80,22 @@ const CalendarScreen = ({ navigation }) => {
         />
       </View>
 
-      {isLoading && (
+      {!eventToDisplay.length ? (
         <View style={commonStyles.center}>
-          <ActivityIndicator size={"large"} color={colors.primary} />
+          <Text>No events ?</Text>
         </View>
+      ) : (
+        <FlatList
+          data={eventToDisplay}
+          renderItem={({ item }) => {
+            return (
+              <EventItem
+                event={item}
+                onPress={() => userPressed(item.eventId)}
+              />
+            );
+          }}
+        />
       )}
 
       <Modal visible={showModal} animationType="fade" transparent={true}>
@@ -54,19 +107,7 @@ const CalendarScreen = ({ navigation }) => {
               setShowModal(false);
             }}
             markingType={"custom"}
-            markedDates={{
-              [searchDate]: {
-                customStyles: {
-                  container: {
-                    backgroundColor: colors.primary500,
-                  },
-                  text: {
-                    color: colors.primary100,
-                    fontWeight: "bold",
-                  },
-                },
-              },
-            }}
+            markedDates={daysToMarked}
             theme={{
               calendarBackground: "#333",
               textSectionTitleColor: "white",
@@ -87,6 +128,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
   },
   searchContainer: {
     flexDirection: "row",

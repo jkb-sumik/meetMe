@@ -1,20 +1,38 @@
 import { useState } from "react";
 import { Image, StyleSheet, Text, View, Modal } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 import SubmitButton from "../components/SubmitButton";
 import colors from "../constants/colors";
-import { EVENTS } from "../constants/events";
 
 const EventInfoScreen = (props) => {
   const eventId = props.route?.params?.selectedEventId;
-  const thisEvent = EVENTS[eventId];
+  const calendar = props.route?.params?.calendar;
+  const eventsData = useSelector((state) => state.events.storedEvents);
+  const calendarData = useSelector((state) => state.calendar.storedEvents);
+  const thisEvent = calendar ? calendarData[eventId] : eventsData[eventId];
   const [activeModal, setActiveModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState("");
   const { title, addres, about, timeDate } = thisEvent;
   const time = `${timeDate
     .slice(0, 10)
     .split("-")
     .reverse()
     .join("-")}  ${timeDate.slice(11, 16)}`;
+
+  const addToCalendar = () => {
+    console.log("Dodano");
+    console.log(selectedEvent);
+    setActiveModal(false);
+    setSelectedEvent("");
+  };
+
+  const deleteFromCalendar = () => {
+    console.log("Usunieto");
+    console.log(selectedEvent);
+    setActiveModal(false);
+    setSelectedEvent("");
+  };
+
   return (
     <View style={{ position: "relative", flex: 1 }}>
       <Image style={styles.image} source={{ uri: thisEvent.image }} />
@@ -35,22 +53,24 @@ const EventInfoScreen = (props) => {
             {about}
           </Text>
           <SubmitButton
-            title="Add to calendar"
+            title={calendar ? "Delete from calendar ?" : "Add to calendar ?"}
             color={colors.primary500}
-            onPress={() => setActiveModal(true)}
+            onPress={() => {
+              setActiveModal(true);
+              setSelectedEvent(eventId);
+            }}
           />
         </View>
       </View>
       <Modal visible={activeModal} animationType="fade" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.settingsView}>
-            <Text style={styles.modalTitle}>Save this event ?</Text>
+            <Text style={styles.modalTitle}>
+              {calendar ? "Delete this event ?" : "Save this event ?"}
+            </Text>
             <SubmitButton
               title="Yes"
-              onPress={() => {
-                console.log("Tak");
-                setActiveModal(false);
-              }}
+              onPress={calendar ? deleteFromCalendar : addToCalendar}
               style={{ marginTop: 20 }}
               color={colors.primary500}
             />

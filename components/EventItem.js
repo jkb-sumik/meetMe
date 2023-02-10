@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -6,8 +5,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import CustomHeaderButton from "./CustomHeaderButton";
 
 const EventItem = (props) => {
   const { event, onPress } = props;

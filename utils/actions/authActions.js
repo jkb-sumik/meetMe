@@ -197,6 +197,22 @@ export const searchUsers = async (queryText) => {
   }
 };
 
+export const searchEvents = async (queryText) => {
+  const searchTerm = queryText;
+  const eventsArray = {};
+  try {
+    const q = query(collection(db, "events"), where("city", "==", searchTerm));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      eventsArray[doc.id] = data;
+    });
+    return eventsArray;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const searchActiveUsers = async (queryText) => {
   const searchTerm = queryText;
   const usersArray = {};

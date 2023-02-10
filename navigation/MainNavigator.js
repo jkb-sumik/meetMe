@@ -26,6 +26,7 @@ import colors from "../constants/colors";
 import commonStyles from "../constants/commonStyles";
 import EventInfoScreen from "../screens/EventInfoScreen";
 import * as Location from "expo-location";
+import { setStoredCalendarEvents } from "../store/calendarSlice";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -232,14 +233,32 @@ const MainNavigator = (props) => {
           setIsLoading(false);
         }
       }
-
-      // console.log(chatIds);
     });
     //Kiedy komponent jest usuwany odmontowywany to zadziała ten kod z return
     return () => {
       console.log("Unsubscribe to firebae listeners");
       unsubChats();
     };
+  }, []);
+
+  // Get users events
+  useEffect(() => {
+    (async () => {
+      const eventsRef = doc(db, "userEvents", userData.userId);
+      const docSnap = await getDoc(eventsRef);
+
+      if (docSnap.exists()) {
+        const data = Object.keys(docSnap.data());
+        data.forEach(async (eventId) => {
+          const eventRef = doc(db, "events", eventId);
+          const eventDataToStore = await getDoc(eventRef);
+          const eventsResult = {
+            [eventId]: eventDataToStore.data(),
+          };
+          dispatch(setStoredCalendarEvents({ newEvents: eventsResult }));
+        });
+      }
+    })();
   }, []);
 
   // Get our location
