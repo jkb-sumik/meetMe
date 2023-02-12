@@ -35,16 +35,24 @@ const AuthScreen = (props) => {
               <Text style={styles.textLogo}>MeetMe</Text>
             </View>
 
-            {isSignUp ? <SignUpForm /> : <SignInForm />}
-
-            <TouchableOpacity
-              onPress={() => setIsSignUp((prevState) => !prevState)}
-              style={styles.linkContainer}
+            <View
+              style={{
+                backgroundColor: "#dfdfdf",
+                padding: 20,
+                borderRadius: 20,
+              }}
             >
-              <Text style={styles.link}>{`Switch to ${
-                isSignUp ? "sign in" : "sign up"
-              }`}</Text>
-            </TouchableOpacity>
+              {isSignUp ? <SignUpForm /> : <SignInForm />}
+
+              <TouchableOpacity
+                onPress={() => setIsSignUp((prevState) => !prevState)}
+                style={styles.linkContainer}
+              >
+                <Text style={styles.link}>{`Switch to ${
+                  isSignUp ? "sign in" : "sign up"
+                }`}</Text>
+              </TouchableOpacity>
+            </View>
           </KeyboardAvoidingView>
         </ScrollView>
       </PageContainer>
@@ -64,7 +72,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
   imageContainer: {
-    height: 250,
+    height: 230,
     justifyContent: "center",
     alignItems: "center",
   },

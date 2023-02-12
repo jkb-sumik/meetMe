@@ -5,9 +5,7 @@ import {
   Text,
   View,
   ScrollView,
-  Modal,
 } from "react-native";
-import PageTitle from "../components/PageTitle";
 import PageContainer from "../components/PageContainer";
 import Input from "../components/Input";
 import SubmitButton from "../components/SubmitButton";
@@ -16,45 +14,24 @@ import {
   FontAwesome,
   FontAwesome5,
   MaterialCommunityIcons,
-  Feather,
-  Ionicons,
 } from "@expo/vector-icons";
 import { validateInput } from "../utils/actions/formActions";
 import { reducer } from "../utils/reducers/formReducer";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updatedSignedInUserData,
-  userLogout,
-} from "../utils/actions/authActions";
+import { updatedSignedInUserData } from "../utils/actions/authActions";
 import { updateLoggedInUserData } from "../store/authSlice";
 import colors from "../constants/colors";
-import { useEffect } from "react";
 
 const SettingsScreen = (props) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [show, setShow] = useState(false);
   const userData = useSelector((state) => state.auth.userData);
 
   const age = userData.age || "";
   const gender = userData.gender || "";
   const city = userData.city || "";
   const about = userData.about || "";
-
-  useEffect(() => {
-    props.navigation.setOptions({
-      headerRight: () => (
-        <Ionicons
-          name="md-settings-outline"
-          size={24}
-          color="black"
-          onPress={() => setShow(true)}
-          style={{ marginRight: 10 }}
-        />
-      ),
-    });
-  }, []);
 
   const initialState = {
     inputValues: {
@@ -113,12 +90,8 @@ const SettingsScreen = (props) => {
     );
   };
 
-  const logoutHandler = () => {
-    dispatch(userLogout());
-  };
-
   return (
-    <PageContainer>
+    <PageContainer style={{ alignItems: "center" }}>
       <ScrollView contentContainerStyle={styles.formContainer}>
         <ProfileImage
           size={140}
@@ -127,7 +100,6 @@ const SettingsScreen = (props) => {
           showEdit={true}
           margin={20}
         />
-        <PageTitle text={`${userData.firstName} ${userData.lastName}`} />
         <Input
           id="age"
           label="Age"
@@ -193,32 +165,6 @@ const SettingsScreen = (props) => {
           )}
         </View>
       </ScrollView>
-      <Modal visible={show} animationType="fade" transparent={true}>
-        <View style={styles.modalContainer}>
-          <View style={styles.settingsView}>
-            <View style={{ alignItems: "flex-end" }}>
-              <Feather
-                name="x"
-                size={30}
-                color="#333"
-                onPress={() => setShow(false)}
-              />
-            </View>
-            <SubmitButton
-              title="Settings"
-              onPress={() => console.log("button A")}
-              style={{ marginTop: 20 }}
-              color={colors.primary500}
-            />
-            <SubmitButton
-              title="Logout"
-              onPress={logoutHandler}
-              style={{ marginTop: 10 }}
-              color={colors.primary500}
-            />
-          </View>
-        </View>
-      </Modal>
     </PageContainer>
   );
 };
@@ -237,11 +183,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     elevation: 10,
   },
-  container: {
-    flex: 1,
-  },
   formContainer: {
+    width: "100%",
     alignItems: "center",
+    backgroundColor: "#dfdfdf",
+    marginTop: 15,
+    padding: 30,
+    borderRadius: 20,
   },
 });
 

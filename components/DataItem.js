@@ -14,7 +14,7 @@ const DataItem = (props) => {
           </Text>
           {chat && (
             <Text numberOfLines={1} style={styles.subTitle}>
-              City: {city}
+              {city}
             </Text>
           )}
           {!chat && (

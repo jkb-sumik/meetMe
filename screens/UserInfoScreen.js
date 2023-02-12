@@ -9,7 +9,7 @@ import SubmitButton from "../components/SubmitButton";
 const UserInfoScreen = (props) => {
   const userId = props.route?.params?.selectedUserId;
   const userData = useSelector((state) => state.users.storedUsers[userId]);
-  const { age, about, firstLast, gender, profilePicture } = userData;
+  const { age, about, firstLast, gender, profilePicture, coords } = userData;
 
   const handleChat = (userId) => {
     props.navigation.navigate("ChatList", {
@@ -19,7 +19,7 @@ const UserInfoScreen = (props) => {
 
   const handleMap = (userId) => {
     props.navigation.navigate("Map", {
-      selectedUserId: userId,
+      selectedUserCoords: coords,
     });
   };
 

@@ -16,9 +16,17 @@ const calendarSlice = createSlice({
       }
       state.storedEvents = existingEvents;
     },
+    deleteStoredCalendarEvents: (state, action) => {
+      const newEvents = action.payload.newEvents;
+      const existingEvents = state.storedEvents;
+      delete existingEvents[newEvents];
+      state.storedEvents = existingEvents;
+    },
   },
 });
 
 export const setStoredCalendarEvents =
   calendarSlice.actions.setStoredCalendarEvents;
+export const deleteStoredCalendarEvents =
+  calendarSlice.actions.deleteStoredCalendarEvents;
 export default calendarSlice.reducer;

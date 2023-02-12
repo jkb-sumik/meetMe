@@ -9,9 +9,10 @@ import colors from "../constants/colors";
 import commonStyles from "../constants/commonStyles";
 import { useSelector } from "react-redux";
 
-const CalendarScreen = ({ navigation }) => {
+const CalendarScreen = (props) => {
   const [searchDate, setSearchDate] = useState("");
   const [showModal, setShowModal] = useState(false);
+
   const event = Object.values(
     useSelector((state) => state.calendar.storedEvents)
   );
@@ -55,7 +56,7 @@ const CalendarScreen = ({ navigation }) => {
 
   // Navigate to info screen
   const userPressed = (eventId) => {
-    navigation.navigate("EventInfo", {
+    props.navigation.navigate("EventInfo", {
       selectedEventId: eventId,
       calendar: true,
     });

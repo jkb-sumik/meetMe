@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AcountScreen from "../screens/AcountScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import ChatListScreen from "../screens/ChatListScreen";
 import ChatScreen from "../screens/ChatScreen";
@@ -9,7 +10,7 @@ import CalendarScreen from "../screens/CalendarScreen";
 import HelpScreen from "../screens/HelpScreen";
 import UserInfoScreen from "../screens/UserInfoScreen";
 import ProfileImage from "../components/ProfileImage";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -54,7 +55,7 @@ const DrawerNavigator = () => {
     >
       <Drawer.Screen
         name="Account"
-        component={SettingsScreen}
+        component={AcountScreen}
         options={{
           title: "Account",
           drawerIcon: ({ size }) => (
@@ -168,6 +169,14 @@ const StackNavigator = () => {
         component={EventInfoScreen}
         options={{
           headerTitle: "Info",
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          headerTitle: "Settings",
           headerTitleAlign: "center",
         }}
       />

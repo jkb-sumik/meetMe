@@ -1,17 +1,21 @@
 import { useState } from "react";
 import { Image, StyleSheet, Text, View, Modal } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SubmitButton from "../components/SubmitButton";
 import colors from "../constants/colors";
+import { setStoredCalendarEvents } from "../store/calendarSlice";
+import { deleteEventFromStore } from "../store/eventSlice";
+import { deleteEventFromDb, sendEventToDb } from "../utils/actions/eventAction";
 
 const EventInfoScreen = (props) => {
+  const dispatch = useDispatch();
   const eventId = props.route?.params?.selectedEventId;
   const calendar = props.route?.params?.calendar;
   const eventsData = useSelector((state) => state.events.storedEvents);
   const calendarData = useSelector((state) => state.calendar.storedEvents);
+  const userData = useSelector((state) => state.auth.userData);
   const thisEvent = calendar ? calendarData[eventId] : eventsData[eventId];
   const [activeModal, setActiveModal] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState("");
   const { title, addres, about, timeDate } = thisEvent;
   const time = `${timeDate
     .slice(0, 10)
@@ -20,18 +24,21 @@ const EventInfoScreen = (props) => {
     .join("-")}  ${timeDate.slice(11, 16)}`;
 
   const addToCalendar = () => {
-    console.log("Dodano");
-    console.log(selectedEvent);
+    if (calendarData[eventId]) {
+      setActiveModal(false);
+      return;
+    }
+    const event = {
+      [eventId]: thisEvent,
+    };
+    (async () => {
+      await sendEventToDb(userData.userId, eventId);
+    })();
+    dispatch(setStoredCalendarEvents({ newEvents: event }));
     setActiveModal(false);
-    setSelectedEvent("");
   };
 
-  const deleteFromCalendar = () => {
-    console.log("Usunieto");
-    console.log(selectedEvent);
-    setActiveModal(false);
-    setSelectedEvent("");
-  };
+  // const deleteFromCalendar = () => {};
 
   return (
     <View style={{ position: "relative", flex: 1 }}>
@@ -52,14 +59,15 @@ const EventInfoScreen = (props) => {
           >
             {about}
           </Text>
-          <SubmitButton
-            title={calendar ? "Delete from calendar ?" : "Add to calendar ?"}
-            color={colors.primary500}
-            onPress={() => {
-              setActiveModal(true);
-              setSelectedEvent(eventId);
-            }}
-          />
+          {!calendar && (
+            <SubmitButton
+              title={calendar ? "Delete from calendar ?" : "Add to calendar ?"}
+              color={colors.primary500}
+              onPress={() => {
+                setActiveModal(true);
+              }}
+            />
+          )}
         </View>
       </View>
       <Modal visible={activeModal} animationType="fade" transparent={true}>
@@ -70,14 +78,13 @@ const EventInfoScreen = (props) => {
             </Text>
             <SubmitButton
               title="Yes"
-              onPress={calendar ? deleteFromCalendar : addToCalendar}
+              onPress={addToCalendar}
               style={{ marginTop: 20 }}
               color={colors.primary500}
             />
             <SubmitButton
               title="No"
               onPress={() => {
-                console.log("Nie");
                 setActiveModal(false);
               }}
               style={{ marginTop: 10 }}

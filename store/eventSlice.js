@@ -4,6 +4,7 @@ const eventSlice = createSlice({
   name: "events",
   initialState: {
     storedEvents: {},
+    deleteEvent: "",
   },
   reducers: {
     setStoredEvents: (state, action) => {
@@ -16,8 +17,13 @@ const eventSlice = createSlice({
       }
       state.storedEvents = existingEvents;
     },
+    deleteEventFromStore: (state, action) => {
+      const event = action.payload.event;
+      state.deleteEvent = event;
+    },
   },
 });
 
 export const setStoredEvents = eventSlice.actions.setStoredEvents;
+export const deleteEventFromStore = eventSlice.actions.deleteEventFromStore;
 export default eventSlice.reducer;

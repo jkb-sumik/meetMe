@@ -58,6 +58,7 @@ export const signUp = (firstName, lastName, email, password) => {
 
       // Tworzenie usera
       await createUser(firstName, lastName, email, uid);
+      await setDoc(doc(db, "userEvents", uid), {});
 
       //Pobierz usera
       const docRef = doc(db, "users", uid);
